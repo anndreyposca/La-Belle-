@@ -209,50 +209,17 @@
       const shareOnWhatsApp = () => {
         if (selectedProduct && selectedProduct.imagens_url) {
           const imageUrls = selectedProduct.imagens_url;
-          let message = encodeURIComponent(
-            `${selectedProduct.nome}\nR$ ${parseFloat(selectedProduct.preco).toFixed(2)}\n\n${selectedProduct.descricao}\n\nExplore o luxo: ${CATALOG_URL}`
-          );
-
-          // Function to download image and convert to base64
-          const getBase64FromImageUrl = (url, callback) => {
-            let img = new Image();
-            img.setAttribute('crossOrigin', 'anonymous'); // Important for avoiding tainted canvas
-            img.onload = () => {
-              let canvas = document.createElement("canvas");
-              canvas.width = img.width;
-              canvas.height = img.height;
-              let ctx = canvas.getContext("2d");
-              ctx.drawImage(img, 0, 0);
-              let dataURL = canvas.toDataURL('image/jpeg');
-              callback(dataURL);
-            };
-            img.onerror = (error) => {
-              console.error("Error loading image:", error);
-              callback(null);
-            };
-            img.src = url;
-          }
-
-          const base64Images = [];
-          let imagesLoaded = 0;
-
-          imageUrls.forEach((url, index) => {
-            getBase64FromImageUrl(url, (base64Image) => {
-              if (base64Image) {
-                base64Images.push(base64Image);
-              }
-              imagesLoaded++;
-
-              if (imagesLoaded === imageUrls.length) {
-                // All images are processed
-                const fullMessage = encodeURIComponent(
-                  `${base64Images.join('\n')}\n\n${selectedProduct.nome}\nR$ ${parseFloat(selectedProduct.preco).toFixed(2)}\n\n${selectedProduct.descricao}\n\nExplore o luxo: ${CATALOG_URL}`
-                );
-                const whatsappURLWithImage = `https://wa.me/?text=${message}`;
-                window.open(whatsappURLWithImage, '_blank');
-              }
-            });
+          let message = "";
+          imageUrls.forEach(url => {
+            message += `Imagem: ${url}\n`;
           });
+          message += `\nNome do produto: ${selectedProduct.nome}\n\n`;
+          message += `Preço: R$ ${parseFloat(selectedProduct.preco).toFixed(2)}\n\n`;
+          message += `Descrição: ${selectedProduct.descricao}\n`;
+
+          const encodedMessage = encodeURIComponent(message);
+          const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
+          window.open(whatsappURL, '_blank');
         }
       };
 
