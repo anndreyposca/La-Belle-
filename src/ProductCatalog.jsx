@@ -225,7 +225,7 @@
 
       const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        setImagens(files);
+        setImagens(prevImages => [...prevImages, ...files]);
       };
 
       const removeImage = (index) => {
@@ -317,14 +317,18 @@
                   </label>
                   <div>
                     {imagens.map((imagem, index) => (
-                      <div key={index} style={{ display: 'inline-block', margin: '5px' }}>
+                      <div key={index} className="image-preview-container">
                         <img
                           src={URL.createObjectURL(imagem)}
                           alt={`Imagem ${index + 1}`}
                           style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                         />
-                        <button type="button" onClick={() => removeImage(index)}>
-                          Excluir
+                        <button
+                          type="button"
+                          className="remove-image-button"
+                          onClick={() => removeImage(index)}
+                        >
+                          x
                         </button>
                       </div>
                     ))}
@@ -429,9 +433,9 @@
                   <div>
                     {Array.isArray(editImagens) ? (
                       editImagens.map((imageUrl, index) => (
-                        <div key={index}>
+                        <div key={index} className="image-preview-container">
                           <img src={imageUrl} alt={`Imagem ${index + 1}`} style={{ width: '50px', height: '50px', objectFit: 'cover', margin: '5px' }} />
-                          <button type="button" onClick={() => removeEditImage(index)}>Excluir</button>
+                          <button type="button" onClick={() => removeEditImage(index)} className="remove-image-button">Excluir</button>
                         </div>
                       ))
                     ) : (
