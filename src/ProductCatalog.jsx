@@ -224,17 +224,31 @@
       };
 
       const handleImageChange = (e) => {
-        setImagens([...e.target.files]);
+        const files = Array.from(e.target.files);
+        setImagens(files);
+      };
+
+      const removeImage = (index) => {
+        setImagens(prevImages => {
+          const newImages = [...prevImages];
+          newImages.splice(index, 1);
+          return newImages;
+        });
       };
 
       const handleEditImageChange = (e) => {
-        setNewEditImagens([...e.target.files]);
+        const files = Array.from(e.target.files);
+        const newImageUrls = files.map(file => URL.createObjectURL(file));
+        setEditImagens(prevEditImagens => [...prevEditImagens, ...newImageUrls]);
+        setNewEditImagens([]);
       };
 
       const removeEditImage = (index) => {
-        const newImages = [...editImagens];
-        newImages.splice(index, 1);
-        setEditImagens(newImages);
+        setEditImagens(prevEditImagens => {
+          const newImages = [...prevEditImagens];
+          newImages.splice(index, 1);
+          return newImages;
+        });
       };
 
       const filteredProducts = products.filter(product =>
@@ -301,6 +315,20 @@
                       onChange={handleImageChange}
                     />
                   </label>
+                  <div>
+                    {imagens.map((imagem, index) => (
+                      <div key={index} style={{ display: 'inline-block', margin: '5px' }}>
+                        <img
+                          src={URL.createObjectURL(imagem)}
+                          alt={`Imagem ${index + 1}`}
+                          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                        />
+                        <button type="button" onClick={() => removeImage(index)}>
+                          Excluir
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                   <button type="submit">Salvar Produto</button>
                 </form>
               </div>
