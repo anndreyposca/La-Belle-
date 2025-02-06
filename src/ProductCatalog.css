@@ -49,7 +49,6 @@
   object-fit: contain; /* Scale down to fit, maintain aspect ratio */
   object-position: center; /* Center the image */
   margin-bottom: 10px;
-  border-radius: 10px; /* Rounded corners */
 }
 
 .product-price {
@@ -67,6 +66,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto; /* Enable scroll if content overflows */
 }
 
 .modal-content {
@@ -75,16 +75,8 @@
   border-radius: 5px;
   position: relative;
   text-align: center; /* Center align the content */
-}
-
-.modal-content img {
-    border-radius: 10px;
-}
-
-.modal-content h3 {
-    font-size: 1.6em;
-    font-weight: bold;
-    margin-top: 10px;
+  max-height: 90vh; /* Limit maximum height to 90% of the viewport height */
+  overflow-y: auto; /* Enable vertical scrolling within the content */
 }
 
 .close {
@@ -130,30 +122,4 @@
 
 .whatsapp-button {
   color: #25d366;
-}
-
-/* Style for the confirmation buttons */
-.confirmation-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px; /* Adjust the gap as needed */
-  margin-top: 20px; /* Add some space above the buttons */
-}
-
-.confirmation-buttons button {
-  padding: 10px 20px; /* Adjust padding as needed */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-}
-
-.confirmation-buttons button:first-child {
-  background-color: #d32f2f; /* Confirm button color */
-  color: white;
-}
-
-.confirmation-buttons button:last-child {
-  background-color: #e0e0e0; /* Cancel button color */
-  color: #333;
 }
