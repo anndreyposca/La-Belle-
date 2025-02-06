@@ -1,0 +1,159 @@
+.product-catalog-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.search-input {
+  width: 200px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-product-button {
+  background-color: #9c826a; /* Updated color */
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.add-product-button:hover {
+  background-color: #77624f;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-card img {
+  width: 200px; /* Standard width */
+  height: 200px; /* Standard height */
+  object-fit: contain; /* Scale down to fit, maintain aspect ratio */
+  object-position: center; /* Center the image */
+  margin-bottom: 10px;
+  border-radius: 10px; /* Rounded corners */
+}
+
+.product-price {
+  font-weight: bold;
+  color: #333;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  text-align: center; /* Center align the content */
+}
+
+.modal-content img {
+    border-radius: 10px;
+}
+
+.modal-content h3 {
+    font-size: 1.6em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.icon-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  font-size: 1.4em;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.icon-button:hover {
+  background-color: #f0f0f0;
+}
+
+.delete-button {
+  color: #e44d26;
+}
+
+.edit-button {
+  color: #f0ad4e;
+}
+
+.whatsapp-button {
+  color: #25d366;
+}
+
+/* Style for the confirmation buttons */
+.confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust the gap as needed */
+  margin-top: 20px; /* Add some space above the buttons */
+}
+
+.confirmation-buttons button {
+  padding: 10px 20px; /* Adjust padding as needed */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.confirmation-buttons button:first-child {
+  background-color: #d32f2f; /* Confirm button color */
+  color: white;
+}
+
+.confirmation-buttons button:last-child {
+  background-color: #e0e0e0; /* Cancel button color */
+  color: #333;
+}
