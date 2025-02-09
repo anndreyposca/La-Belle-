@@ -21,7 +21,7 @@
       const [editPreco, setEditPreco] = useState('');
       const [editDescricao, setEditDescricao] = useState('');
       const [editImagens, setEditImagens] = useState([]); // Changed to array
-      const [newEditImagens, setNewEditImagens] = useState([]);
+      const [newEditImagens, setNewEditImagens] = useState(false);
       const [showConfirmation, setShowConfirmation] = useState(false);
 
       useEffect(() => {
@@ -103,7 +103,7 @@
         setEditPreco(product.preco);
         setEditDescricao(product.descricao);
         setEditImagens(product.imagens_url || []);
-        setNewEditImagens([]);
+        setNewEditImagens(false);
         setIsEditModalOpen(true);
       };
 
@@ -115,11 +115,11 @@
         }
 
         const imageUrls = [];
-        for (const imagem of newEditImagens) {
-          const nomeArquivo = `produtos/${Date.now()}_${imagem.name}`;
+        if (newEditImagens) {
+          const nomeArquivo = `produtos/${Date.now()}_${newEditImagens.name}`;
           const { data: imagemData, error: uploadError } = await supabase.storage
             .from('imagens')
-            .upload(nomeArquivo, imagem);
+            .upload(nomeArquivo, newEditImagens);
 
           if (uploadError) {
             console.error('Erro ao fazer upload da imagem:', uploadError);
@@ -225,7 +225,7 @@
 
       const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        setImagens(prevImages => [...prevImages, ...files]);
+        setImagens(files);
       };
 
       const removeImage = (index) => {
@@ -237,18 +237,13 @@
       };
 
       const handleEditImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        const newImageUrls = files.map(file => URL.createObjectURL(file));
-        setEditImagens(prevEditImagens => [...prevEditImagens, ...newImageUrls]);
-        setNewEditImagens([]);
+        setNewEditImagens(e.target.files[0]);
       };
 
       const removeEditImage = (index) => {
-        setEditImagens(prevEditImagens => {
-          const newImages = [...prevEditImagens];
-          newImages.splice(index, 1);
-          return newImages;
-        });
+        const newImages = [...editImagens];
+        newImages.splice(index, 1);
+        setEditImagens(newImages);
       };
 
       const filteredProducts = products.filter(product =>
@@ -316,22 +311,19 @@
                     />
                   </label>
                   <div>
-                    {imagens.map((imagem, index) => (
-                      <div key={index} className="image-preview-container">
-                        <img
-                          src={URL.createObjectURL(imagem)}
-                          alt={`Imagem ${index + 1}`}
-                          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                        />
-                        <button
-                          type="button"
-                          className="remove-image-button"
-                          onClick={() => removeImage(index)}
-                        >
-                          x
-                        </button>
-                      </div>
-                    ))}
+                    {imagens.map((imagem, index) => {
+                      // Check if imagem is a File object or a URL string
+                      const imageUrl = imagem instanceof File ? URL.createObjectURL(imagem) : imagem;
+                      return (
+                        <div key={imagem.name + index} style={{ display: 'inline-block', margin: '5px' }}>
+                          <img
+                            src={imageUrl}
+                            alt={`Imagem ${index + 1}`}
+                            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
                   <button type="submit">Salvar Produto</button>
                 </form>
@@ -433,9 +425,8 @@
                   <div>
                     {Array.isArray(editImagens) ? (
                       editImagens.map((imageUrl, index) => (
-                        <div key={index} className="image-preview-container">
+                        <div key={index}>
                           <img src={imageUrl} alt={`Imagem ${index + 1}`} style={{ width: '50px', height: '50px', objectFit: 'cover', margin: '5px' }} />
-                          <button type="button" onClick={() => removeEditImage(index)} className="remove-image-button">Excluir</button>
                         </div>
                       ))
                     ) : (
