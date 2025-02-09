@@ -246,9 +246,16 @@
         setEditImagens(newImages);
       };
 
-      const filteredProducts = products.filter(product =>
-        product.nome.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      // Function to remove accents from a string
+      function removeAccents(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
+
+      const filteredProducts = products.filter(product => {
+        const searchTermWithoutAccents = removeAccents(searchTerm.toLowerCase());
+        const productNameWithoutAccents = removeAccents(product.nome.toLowerCase());
+        return productNameWithoutAccents.includes(searchTermWithoutAccents);
+      });
 
       return (
         <div className="product-catalog-container">
